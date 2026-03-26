@@ -73,7 +73,7 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
             quest_Note_1.quest_Show_String_For_Note_Small_Func(
             "user is holding stick forward - accelerate and hold"
             )
-            if (normal_accel_speed < max_normal_speed / 2) {
+            if (normal_accel_speed < max_normal_speed / 1) {
                 quest_Note_1.quest_Show_String_For_Note_Small_Func(
                 "Still accelerating - increment speed"
                 )
