@@ -73,6 +73,12 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
             quest_Note_1.quest_Show_String_For_Note_Small_Func(
             "user is holding stick forward - accelerate and hold"
             )
+            // smooth accel begins at normal_start_speed and ends at the value specified below by (max_normal_speed/n).
+            // For smooth acceleration to Max normal speed make the divisor (n) equal to one.
+            // For smooth acceleration to one-half max_normal_speed followed by immediate jump to max_normal_speed, make the divisor (n) equal to 2.
+            quest_Note_1.quest_Show_String_For_Note_Small_Func(
+            "The divisor for max_normal_speed sets the point for jump to full power"
+            )
             if (normal_accel_speed < max_normal_speed / 1) {
                 quest_Note_1.quest_Show_String_For_Note_Small_Func(
                 "Still accelerating - increment speed"
@@ -152,8 +158,8 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
         )
         quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
         quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
-        30,
-        0
+        40,
+        -10
         )
     } else if (network_ReceivedString_FromControllerJoystick_Str_ParamIn == "right") {
         last_joystick_command = 0
@@ -169,8 +175,8 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
         )
         quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
         quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
-        0,
-        30
+        -10,
+        40
         )
     } else if (network_ReceivedString_FromControllerJoystick_Str_ParamIn == "stop") {
         last_joystick_command = 0
@@ -807,7 +813,7 @@ turbo_mode = 0
 normal_start_speed = 20
 // This variable controls the rate of the acceleration ramp-- how long the bot takes to get from zero to max. In initial testing 1 worked well, 2 produced tire slippage.
 accel_rate = 1
-max_normal_speed = 40
+max_normal_speed = 60
 // This value will determine the maximum speed to which the bot will accelerate before topping out. Valid range is 0 to 100.
 max_turbo_speed = 99
 quest_Note_1.quest_Show_String_For_Note_Big_Func(
