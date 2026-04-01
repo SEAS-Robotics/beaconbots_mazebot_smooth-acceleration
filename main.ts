@@ -841,7 +841,7 @@ quest_Note_2.quest_Show_String_For_Note_Big_Func(
 quest_Note_2.quest_Show_String_For_Note_Small_Func(
 "... Range [21-255], Default = 1"
 )
-network_GroupChannel_MyBotAndController_Base0_Int = 94
+network_GroupChannel_MyBotAndController_Base0_Int = 2
 setup_Code_For_System_Func()
 quest_Note_1.quest_Show_String_For_Note_Big_Func(
 "Below, Setup Code for Teacher:"
@@ -859,13 +859,13 @@ max_turbo_speed = 99
 quest_Note_4.quest_Show_String_For_Note_Small_Func(
 "Per-bot Power Calibration for Left/Right \"drift\":"
 )
-r_normal_fwd_cal = 0.85
+r_normal_fwd_cal = 1
 l_normal_fwd_cal = 1
-r_boost_fwd_cal = 0.9
+r_boost_fwd_cal = 1
 l_boost_fwd_cal = 1
-r_normal_rev_cal = 0.95
+r_normal_rev_cal = 1
 l_normal_rev_cal = 1
-r_boost_rev_cal = 0.95
+r_boost_rev_cal = 1
 l_boost_rev_cal = 1
 quest_Note_1.quest_Show_String_For_Note_Big_Func(
 "Below, Setup Code for Student:"
