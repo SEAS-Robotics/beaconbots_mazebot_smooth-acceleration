@@ -94,24 +94,24 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
                     normal_accel_speed = max_normal_speed
                 }
             }
-        }
-        if (turbo_mode == 1) {
-            quest_Note_1.quest_Show_String_For_Note_Small_Func(
-            "Apply left/right power calibrations and set motor power"
-            )
-            // //jwc o roboQuest.powerMotorsViaBlueRedBlackPins(PortGroup_BlueRedBlack__PortIds__Enum.S1_MotorLeft__S0_MotorRight, motor_Power_ZERO_INT, motor_Power_ZERO_INT)
-            quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
-            quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
-            normal_accel_speed * l_boost_fwd_cal,
-            normal_accel_speed * r_boost_fwd_cal
-            )
-        } else {
-            // //jwc o roboQuest.powerMotorsViaBlueRedBlackPins(PortGroup_BlueRedBlack__PortIds__Enum.S1_MotorLeft__S0_MotorRight, motor_Power_ZERO_INT, motor_Power_ZERO_INT)
-            quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
-            quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
-            normal_accel_speed * l_normal_fwd_cal,
-            normal_accel_speed * r_normal_fwd_cal
-            )
+            if (turbo_mode == 1) {
+                quest_Note_1.quest_Show_String_For_Note_Small_Func(
+                "Apply left/right power calibrations and set motor power"
+                )
+                // //jwc o roboQuest.powerMotorsViaBlueRedBlackPins(PortGroup_BlueRedBlack__PortIds__Enum.S1_MotorLeft__S0_MotorRight, motor_Power_ZERO_INT, motor_Power_ZERO_INT)
+                quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
+                quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
+                normal_accel_speed * l_boost_fwd_cal,
+                normal_accel_speed * r_boost_fwd_cal
+                )
+            } else {
+                // //jwc o roboQuest.powerMotorsViaBlueRedBlackPins(PortGroup_BlueRedBlack__PortIds__Enum.S1_MotorLeft__S0_MotorRight, motor_Power_ZERO_INT, motor_Power_ZERO_INT)
+                quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
+                quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
+                normal_accel_speed * l_normal_fwd_cal,
+                normal_accel_speed * r_normal_fwd_cal
+                )
+            }
         }
     } else if (network_ReceivedString_FromControllerJoystick_Str_ParamIn == "backward") {
         images.createImage(`
@@ -188,8 +188,8 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
         )
         quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
         quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
-        40,
-        -10
+        turns_wheel_speed,
+        0 - turns_wheel_speed
         )
     } else if (network_ReceivedString_FromControllerJoystick_Str_ParamIn == "right") {
         last_joystick_command = 0
@@ -205,8 +205,8 @@ function bot_Servo_Motors_Basic_Fn (network_ReceivedString_FromControllerJoystic
         )
         quest_Motors.quest_Set_PowerMotorsViaBlueRedBlackPins_Func(
         quest_PortGroup_BlueRedBlack_PortIds_Enum.S1_MotorLeft__S0_MotorRight,
-        -10,
-        40
+        0 - turns_wheel_speed,
+        turns_wheel_speed
         )
     } else if (network_ReceivedString_FromControllerJoystick_Str_ParamIn == "stop") {
         last_joystick_command = 0
@@ -306,11 +306,11 @@ function bot_Servo_Motors_Turbo_Fn (network_ReceivedString_FromControllerJoystic
         turbo_mode = 1
     } else if (network_ReceivedString_FromControllerJoystick_Str_ParamIn == "turbo_off") {
         images.createImage(`
-            # . # # .
-            . # . . #
-            # . # . #
-            # . . # .
-            . # # . #
+            . . . . .
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
             `).showImage(0, 0)
         turbo_mode = 0
     }
@@ -822,6 +822,7 @@ let l_boost_fwd_cal = 0
 let r_boost_fwd_cal = 0
 let l_normal_fwd_cal = 0
 let r_normal_fwd_cal = 0
+let turns_wheel_speed = 0
 let max_turbo_speed = 0
 let max_normal_speed = 0
 let accel_rate = 0
@@ -854,19 +855,23 @@ accel_rate = 1
 max_normal_speed = 60
 // This value will determine the maximum speed to which the bot will accelerate before topping out. Valid range is 0 to 100.
 max_turbo_speed = 99
+quest_Note_4.quest_Show_String_For_Note_Small_Func(
+"Wheel speed for turns"
+)
+turns_wheel_speed = 40
 // When the RQ100 robot is configured with an overdrive gearing system, small disparities in motor power and drive train friction between left and right wheels can accumulate to cause a drift either right or left.
 // The power calibration values are applied to the individual motor power settings to compensate for these disparities (which may differ between forward and reverse drive as well as normal versus turbo speed)
 quest_Note_4.quest_Show_String_For_Note_Small_Func(
 "Per-bot Power Calibration for Left/Right \"drift\":"
 )
 r_normal_fwd_cal = 1
-l_normal_fwd_cal = 1
+l_normal_fwd_cal = 0.95
 r_boost_fwd_cal = 1
-l_boost_fwd_cal = 1
+l_boost_fwd_cal = 0.95
 r_normal_rev_cal = 1
-l_normal_rev_cal = 1
+l_normal_rev_cal = 0.93
 r_boost_rev_cal = 1
-l_boost_rev_cal = 1
+l_boost_rev_cal = 0.85
 quest_Note_1.quest_Show_String_For_Note_Big_Func(
 "Below, Setup Code for Student:"
 )
