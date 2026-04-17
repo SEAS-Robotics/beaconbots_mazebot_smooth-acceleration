@@ -858,7 +858,7 @@ max_turbo_speed = 99
 quest_Note_4.quest_Show_String_For_Note_Small_Func(
 "Wheel speed for turns"
 )
-turns_wheel_speed = 40
+turns_wheel_speed = 60
 // When the RQ100 robot is configured with an overdrive gearing system, small disparities in motor power and drive train friction between left and right wheels can accumulate to cause a drift either right or left.
 // The power calibration values are applied to the individual motor power settings to compensate for these disparities (which may differ between forward and reverse drive as well as normal versus turbo speed)
 quest_Note_4.quest_Show_String_For_Note_Small_Func(
